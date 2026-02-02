@@ -15,12 +15,14 @@ body{
   min-height:100vh;
   font-family:'Quicksand',sans-serif;
   display:flex;
-  justify-content:center;
-  align-items:flex-start;
+  flex-direction:column;
+  justify-content:flex-end; /* ye container ko screen ke niche push karega */
+  align-items:center;
   background:
     linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)),
     url('tenor.gif') center/cover no-repeat;
-  overflow-x:hidden;
+  overflow:hidden;
+  padding-bottom:20px; /* thoda space niche ke liye */
 }
 
 /* Floating hearts */
@@ -53,11 +55,10 @@ body{
 }
 
 /* Main container - mobile-friendly */
+/* Main container */
 .container {
-  position: relative;
-  margin: 120px auto 50px auto;
+  width: 100%;
   max-width: 400px;
-  width: 90%;
   text-align: center;
   z-index: 1;
   padding: 0 10px;
