@@ -140,6 +140,11 @@ p{
 </head>
 <body>
 
+<!-- Particle Background -->
+<canvas id="particleBg"
+style="position:fixed;inset:0;z-index:0;pointer-events:none"></canvas>
+
+
 <!-- Hearts -->
 <div class="hearts">
   <span class="heart">❤️</span><span class="heart">💕</span><span class="heart">💗</span>
@@ -259,6 +264,101 @@ function startConfetti(){
 // Initial Screen
 updateScreen();
 </script>
+
+<script>
+  /* 💕 PINK HEART PARTICLE NETWORK + MOUSE FOLLOW + TEXT SHAPE */
+  
+  const pCanvas = document.getElementById("particleBg");
+  const pCtx = pCanvas.getContext("2d");
+  let w, h, particles = [], mouse = {x:null,y:null};
+  
+  function resizeP(){
+    w = pCanvas.width = innerWidth;
+    h = pCanvas.height = innerHeight;
+    initParticles();
+  }
+  window.addEventListener("resize", resizeP);
+  
+  window.addEventListener("mousemove", e=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  window.addEventListener("touchmove", e=>{
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+  });
+  
+  function initParticles(){
+    particles=[];
+    const text = "LOVE"; // 👉 yaha naam change kar sakte ho
+    const temp = document.createElement("canvas");
+    const tctx = temp.getContext("2d");
+    temp.width = w;
+    temp.height = h;
+    tctx.fillStyle="#fff";
+    tctx.font = "bold 160px Playfair Display";
+    tctx.textAlign="center";
+    tctx.fillText(text,w/2,h/1.12);
+  
+    const data = tctx.getImageData(0,0,w,h).data;
+    for(let y=0;y<h;y+=8){
+      for(let x=0;x<w;x+=8){
+        if(data[(y*w+x)*4+3]>150){
+          particles.push({
+            x:Math.random()*w,
+            y:Math.random()*h,
+            tx:x, ty:y,
+            vx:0, vy:0
+          });
+        }
+      }
+    }
+  }
+  
+  function animateP(){
+    pCtx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.vx += (p.tx-p.x)*0.002;
+      p.vy += (p.ty-p.y)*0.002;
+  
+      if(mouse.x){
+        const dx=p.x-mouse.x, dy=p.y-mouse.y;
+        const d=Math.hypot(dx,dy);
+        if(d<120){
+          p.vx += dx*0.03;
+          p.vy += dy*0.03;
+        }
+      }
+  
+      p.x+=p.vx; p.y+=p.vy;
+      p.vx*=0.85; p.vy*=0.85;
+  
+      pCtx.beginPath();
+      pCtx.arc(p.x,p.y,2.2,0,Math.PI*2);
+      pCtx.fillStyle="#ff5fa2";
+      pCtx.fill();
+    });
+  
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const a=particles[i], b=particles[j];
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<90){
+          pCtx.strokeStyle=`rgba(255,95,162,${1-d/90})`;
+          pCtx.beginPath();
+          pCtx.moveTo(a.x,a.y);
+          pCtx.lineTo(b.x,b.y);
+          pCtx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animateP);
+  }
+  
+  resizeP();
+  animateP();
+  </script>
+  
 
 <!-- Footer -->
 <footer style="
