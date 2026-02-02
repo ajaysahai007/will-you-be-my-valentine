@@ -5,11 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Will you be my Valentine? 💕</title>
 
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Meta Tags for Social Sharing -->
+<meta property="og:title" content="Will you be my Valentine? 💕">
+<meta property="og:description" content="Hey ❤️ I said YES! Will you be my Valentine? 💕🥰">
+<meta property="og:image" content="manja.gif">
+<meta property="og:url" content="https://ajaysahai007.github.io/will-you-be-my-valentine">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9RP2QD5XCR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9RP2QD5XCR');
+</script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
 body{
   min-height:100vh;
   font-family:'Quicksand',sans-serif;
@@ -17,25 +33,13 @@ body{
   flex-direction:column;
   justify-content:flex-end;
   align-items:center;
-  background:
-    linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)),
-    url('tenor.gif') center/cover no-repeat;
+  background: linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)), url('tenor.gif') center/cover no-repeat;
   overflow:hidden;
   padding-bottom:150px;
 }
 
-.hearts{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-}
-.heart{
-  position:absolute;
-  font-size:20px;
-  opacity:.35;
-  animation:float 6s infinite ease-in-out;
-}
+.hearts{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.heart{position:absolute;font-size:20px;opacity:.35;animation:float 6s infinite ease-in-out;}
 .heart:nth-child(1){left:10%}
 .heart:nth-child(2){left:20%;animation-delay:1s}
 .heart:nth-child(3){left:30%;animation-delay:2s}
@@ -119,50 +123,34 @@ p{
   border:none;
 }
 
-.btn-yes{
-  background:#fff;
-  border:2px solid #ff6b9d;
-  color:#c71585;
-}
+.btn-yes{background:#fff;border:2px solid #ff6b9d;color:#c71585;}
+.btn-no{background:#fff;border:2px solid #ddd;}
+.btn-no.running{position:absolute!important;}
 
-.btn-no{
-  background:#fff;
-  border:2px solid #ddd;
-}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;}
 
-.btn-no.running{
-  position:absolute!important;
-}
-
-.confetti{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:5;
-}
-
-/* Mobile adjustments */
 @media(max-width:600px){
   h1{font-size:1.5rem;}
   p{font-size:.9rem;}
   .gif-image{max-width:180px;}
   .btn{padding:8px 16px;font-size:.9rem;}
   .container{margin-top:80px;}
-} /* <-- added */
-
+}
 </style>
 </head>
-
 <body>
 
+<!-- Hearts -->
 <div class="hearts">
   <span class="heart">❤️</span><span class="heart">💕</span><span class="heart">💗</span>
   <span class="heart">❤️</span><span class="heart">💕</span><span class="heart">💗</span>
   <span class="heart">❤️</span><span class="heart">💕</span><span class="heart">💗</span>
 </div>
 
+<!-- Confetti Canvas -->
 <canvas class="confetti" id="confetti"></canvas>
 
+<!-- Main Container -->
 <div class="container">
   <div id="questionText"></div>
   <img id="gifImage" class="gif-image" src="manja.gif" alt="valentine gif">
@@ -173,38 +161,29 @@ p{
 </div>
 
 <script>
+// DOM Elements
 const questionText = document.getElementById("questionText");
 const gifImage = document.getElementById("gifImage");
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const container = document.querySelector(".container");
 
+// Questions Array
 const questions = [
-  {
-    text:`<h1>Will you be my Valentine? 💕🥺</h1>
-    <p>You’re my whole world 🌍❤️</p>`,
-    gif:"manja.gif"
-  },
-  {
-    text:`<h1>Please think again 🥹</h1>
-    <p>My heart isn’t ready 💔</p>`,
-    gif:"mochi.gif"
-  },
-  {
-    text:`<h1>Baby please 😭💘</h1>
-    <p>Don’t break my heart</p>`,
-    gif:"peach-goma-phone.gif",
-    noMoves:true
-  }
+  {text:`<h1>Will you be my Valentine? 💕🥺</h1><p>You’re my whole world 🌍❤️</p>`, gif:"manja.gif"},
+  {text:`<h1>Please think again 🥹</h1><p>My heart isn’t ready 💔</p>`, gif:"mochi.gif"},
+  {text:`<h1>Baby please 😭💘</h1><p>Don’t break my heart</p>`, gif:"peach-goma-phone.gif", noMoves:true}
 ];
 
 let step = 0;
 
+// Update Screen
 function updateScreen(){
   questionText.innerHTML = `<div class="heartbeat">${questions[step].text}</div>`;
   gifImage.src = questions[step].gif;
 }
 
+// No Button
 noBtn.onclick = () => {
   if(questions[step].noMoves){
     const r = container.getBoundingClientRect();
@@ -217,12 +196,19 @@ noBtn.onclick = () => {
   updateScreen();
 };
 
-// WhatsApp integration
+// Yes Button - WhatsApp Integration + GA Event
 yesBtn.onclick = () => {
   const msg = "Hey ❤️ I said YES! Will you be my Valentine? 💕🥰";
   navigator.clipboard.writeText(msg);
   showFinalScreen();
 
+  // Google Analytics Event
+  gtag('event', 'click', {
+    'event_category': 'Valentine',
+    'event_label': 'Yes Button'
+  });
+
+  // Open WhatsApp
   setTimeout(() => {
     const phone = "917210836365";
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
@@ -230,6 +216,7 @@ yesBtn.onclick = () => {
   }, 500);
 };
 
+// Show Final Screen
 function showFinalScreen(){
   startConfetti();
   questionText.innerHTML=`
@@ -242,7 +229,7 @@ function showFinalScreen(){
   document.querySelector(".buttons").style.display="none";
 }
 
-/* Confetti */
+// Confetti Animation
 const canvas = document.getElementById("confetti");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
@@ -269,9 +256,11 @@ function startConfetti(){
   }, 30);
 }
 
+// Initial Screen
 updateScreen();
 </script>
 
+<!-- Footer -->
 <footer style="
   position:fixed;
   bottom:10px;
@@ -284,6 +273,6 @@ updateScreen();
   <span style="color:#ffffff;">Designed by ❤️ </span>
   <span style="color:#ff4f9a;">Ajay Kumar</span>
 </footer>
-  
+
 </body>
 </html>
