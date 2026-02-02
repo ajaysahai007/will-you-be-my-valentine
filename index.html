@@ -10,22 +10,20 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
-/* Body & background */
 body{
   min-height:100vh;
   font-family:'Quicksand',sans-serif;
   display:flex;
   flex-direction:column;
-  justify-content:flex-end; /* ye container ko screen ke niche push karega */
+  justify-content:flex-end;
   align-items:center;
   background:
     linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)),
     url('tenor.gif') center/cover no-repeat;
   overflow:hidden;
-  padding-bottom:150px; /* thoda space niche ke liye */
+  padding-bottom:150px;
 }
 
-/* Floating hearts */
 .hearts{
   position:fixed;
   inset:0;
@@ -54,22 +52,18 @@ body{
   100%{transform:translateY(-120px) rotate(360deg);opacity:0}
 }
 
-/* Main container - mobile-friendly */
-/* Main container */
-.container {
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-  z-index: 1;
-  padding: 0 10px;
+.container{
+  width:100%;
+  max-width:500px;
+  text-align:center;
+  z-index:1;
+  padding:0 10px;
 }
 
-/* Heartbeat animation */
 .heartbeat{
   animation:heartbeat 1.6s infinite;
   transform-origin:center;
 }
-
 @keyframes heartbeat{
   0%{transform:scale(1)}
   14%{transform:scale(1.12)}
@@ -78,7 +72,6 @@ body{
   70%{transform:scale(1)}
 }
 
-/* Headings & paragraphs */
 h1{
   font-family:'Playfair Display',serif;
   font-size:2rem;
@@ -86,7 +79,6 @@ h1{
   margin-bottom:12px;
   text-shadow:0 4px 15px rgba(0,0,0,.6);
 }
-
 p{
   color:#f2f2f2;
   margin-bottom:6px;
@@ -94,17 +86,15 @@ p{
   text-shadow:0 2px 10px rgba(0,0,0,.6);
 }
 
-/* GIF image */
 .gif-image{
-  width: 100%;
-  max-width: 250px;
-  border-radius: 20px;
+  width:100%;
+  max-width:250px;
+  border-radius:20px;
   margin:18px auto;
   display:block;
   box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
-/* Buttons */
 .buttons{
   display:flex;
   justify-content:center;
@@ -113,13 +103,19 @@ p{
   flex-wrap:wrap;
 }
 
+.btn-yes:hover{
+  background:linear-gradient(135deg,#ff6b9d,#c71585);
+  color:#fff;
+  transform:scale(1.07);
+}
+
 .btn{
   padding:10px 20px;
   font-size:1rem;
   font-weight:600;
   border-radius:14px;
   cursor:pointer;
-  transition:.3s;
+  transition:all .3s;
   border:none;
 }
 
@@ -129,25 +125,15 @@ p{
   color:#c71585;
 }
 
-.btn-yes:hover{
-  background:linear-gradient(135deg,#ff6b9d,#c71585);
-  color:#fff;
-  transform:scale(1.07);
-}
-
 .btn-no{
   background:#fff;
   border:2px solid #ddd;
-  color:#333;
-  position:relative;
 }
 
 .btn-no.running{
   position:absolute!important;
-  z-index:10;
 }
 
-/* Confetti */
 .confetti{
   position:fixed;
   inset:0;
@@ -162,7 +148,8 @@ p{
   .gif-image{max-width:180px;}
   .btn{padding:8px 16px;font-size:.9rem;}
   .container{margin-top:80px;}
-}
+} /* <-- added */
+
 </style>
 </head>
 
@@ -178,9 +165,7 @@ p{
 
 <div class="container">
   <div id="questionText"></div>
-
-  <img id="gifImage" class="gif-image" src="manja.gif" alt="love gif">
-
+  <img id="gifImage" class="gif-image" src="manja.gif" alt="valentine gif">
   <div class="buttons">
     <button class="btn btn-yes" id="yesBtn">Yes 💖</button>
     <button class="btn btn-no" id="noBtn">No 😈</button>
@@ -188,95 +173,100 @@ p{
 </div>
 
 <script>
-const questionText=document.getElementById("questionText");
-const gifImage=document.getElementById("gifImage");
-const yesBtn=document.getElementById("yesBtn");
-const noBtn=document.getElementById("noBtn");
-const container=document.querySelector(".container");
+const questionText = document.getElementById("questionText");
+const gifImage = document.getElementById("gifImage");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const container = document.querySelector(".container");
 
-const questions=[
-{
-text:`<h1>Will you be my Valentine? 💕🥺</h1>
-<p>You’re my whole world, my reason to smile 🌍❤️✨</p>`,
-gif:"manja.gif"
-},
-{
-text:`<h1>Please think again, pretty please! 🙄🥹</h1>
-<p>Don’t say no so fast… my heart isn’t ready 😥💔</p>`,
-gif:"manja.gif"
-},
-{
-text:`<h1>Just one more time, think about it na! 😣💭</h1>
-<p>Why are you breaking my heart like this? 😣💞</p>`,
-gif:"mochi.gif"
-},
-{
-text:`<h1>Baby, please maan jao na! 😭💘</h1>
-<p>This is too cruel yaar… my heart can’t take it 💔😭</p>`,
-gif:"peach-goma-phone.gif",
-noMoves:true
-}
+const questions = [
+  {
+    text:`<h1>Will you be my Valentine? 💕🥺</h1>
+    <p>You’re my whole world 🌍❤️</p>`,
+    gif:"manja.gif"
+  },
+  {
+    text:`<h1>Please think again 🥹</h1>
+    <p>My heart isn’t ready 💔</p>`,
+    gif:"mochi.gif"
+  },
+  {
+    text:`<h1>Baby please 😭💘</h1>
+    <p>Don’t break my heart</p>`,
+    gif:"peach-goma-phone.gif",
+    noMoves:true
+  }
 ];
 
-let step=0;
+let step = 0;
 
 function updateScreen(){
-  questionText.innerHTML=`<div class="heartbeat">${questions[step].text}</div>`;
-  gifImage.src=questions[step].gif;
+  questionText.innerHTML = `<div class="heartbeat">${questions[step].text}</div>`;
+  gifImage.src = questions[step].gif;
 }
 
-yesBtn.onclick=()=>showFinalScreen();
-
-noBtn.onclick=()=>{
-  if(questions[step].noMoves)return runNo();
-  step=Math.min(step+1,questions.length-1);
+noBtn.onclick = () => {
+  if(questions[step].noMoves){
+    const r = container.getBoundingClientRect();
+    noBtn.classList.add("running");
+    noBtn.style.left = Math.random()*(r.width-100) + "px";
+    noBtn.style.top  = Math.random()*(r.height-50) + "px";
+    return;
+  }
+  step++;
   updateScreen();
 };
 
-function runNo(){
-  const rect=container.getBoundingClientRect();
-  noBtn.classList.add("running");
-  noBtn.style.left=Math.random()*(rect.width-100)+"px";
-  noBtn.style.top=Math.random()*(rect.height-50)+"px";
-}
+// WhatsApp integration
+yesBtn.onclick = () => {
+  const msg = "Hey ❤️ I said YES! Will you be my Valentine? 💕🥰";
+  navigator.clipboard.writeText(msg);
+  showFinalScreen();
+
+  setTimeout(() => {
+    const phone = "917210836365";
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, "_blank");
+  }, 500);
+};
 
 function showFinalScreen(){
   startConfetti();
   questionText.innerHTML=`
-    <div class="heartbeat" style="animation-duration:2s">
-      <h1>She said YES! 💍😍</h1>
-      <p>Best Valentine ever 💖</p>
-      <p>My heart is officially yours 🥰</p>
-    </div>`;
+  <div class="heartbeat">
+    <h1>She said YES! 💍😍</h1>
+    <p>Message copied 📋</p>
+    <p>Paste it in WhatsApp 💌</p>
+  </div>`;
   gifImage.src="love-you.gif";
   document.querySelector(".buttons").style.display="none";
 }
 
 /* Confetti */
-const canvas=document.getElementById("confetti");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
-const confetti=Array.from({length:150},()=>({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*6+4,
-color:`hsl(${Math.random()*360},100%,60%)`
+const confetti = Array.from({length:120}, () => ({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: Math.random()*6+4,
+  c: `hsl(${Math.random()*360},100%,60%)`
 }));
 
 function startConfetti(){
-setInterval(()=>{
-ctx.clearRect(0,0,canvas.width,canvas.height);
-confetti.forEach(c=>{
-ctx.beginPath();
-ctx.arc(c.x,c.y,c.r,0,Math.PI*2);
-ctx.fillStyle=c.color;
-ctx.fill();
-c.y+=3;
-if(c.y>canvas.height)c.y=-10;
-});
-},30);
+  setInterval(() => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(o => {
+      ctx.beginPath();
+      ctx.arc(o.x,o.y,o.r,0,Math.PI*2);
+      ctx.fillStyle = o.c;
+      ctx.fill();
+      o.y += 3;
+      if(o.y > canvas.height) o.y = -10;
+    });
+  }, 30);
 }
 
 updateScreen();
